@@ -36,3 +36,17 @@ def extract_data():
     else:
         log_data.to_csv(path, index= False)
         print('Data extracted and written to file')
+
+
+def transform_data():
+    # Define a function to convert the date column to a uniform date format
+    def convert_to_date(date_string):
+        date_value = datetime.strptime(date_string, '%Y-%m-%d').date()
+        return date_value
+    files = os.listdir('raw')
+    for file in files:
+        log_data = pd.read_csv(f'raw/{file}')
+        log_data['date'] = log_data['date'].apply(convert_to_date)
+        log_data.to_csv(f'transformed/{file}', index=False)
+    print('Transformed data is now written to a csv file')
+
