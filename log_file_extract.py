@@ -50,3 +50,11 @@ def transform_data():
         log_data.to_csv(f'transformed/{file}', index=False)
     print('Transformed data is now written to a csv file')
 
+
+def load_data():
+    db_connection = get_database_conn()
+    csv_files = os.listdir('transformed')
+    for file in csv_files:
+        log_data = pd.read_csv(f'transformed/{file}')
+        log_data.to_sql('log_data', con= db_connection, if_exists= 'replace', index=False)
+    print('Data loaded succesffuly load')
